@@ -1,5 +1,3 @@
-// This whole file was taken from https://github.com/TF2Autobot/autobot.tf/blob/master/src/server/lib/data.ts
-
 export const australiumImageURL: { [defindex: string]: string } = {
     // Australium Ambassador
     61: 'IUwYcXxrxqzlHh9rZCv2ADN8Mmsgy4N4MgGBvxVQuY7G2ZW8zJlfDUKJYCqxp8lnuW34wvJM3DIHgr-8CcAu9qsKYZG08QCvM/',
