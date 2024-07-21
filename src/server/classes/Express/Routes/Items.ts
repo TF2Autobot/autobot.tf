@@ -89,13 +89,28 @@ export class Items {
                         prices.buy.toValue(pricelist.keyPrice) === 0 ? '0 ref' : prices.buy.toString()
                     } / ${prices.sell.toValue(pricelist.keyPrice) === 0 ? '0 ref' : prices.sell.toString()}`;
                 }
-
+                const casestfPrice = this.server.casestfPriceList[sku];
+                const formatCasestfPrice = casestfPrice ? {
+                    buy: "",
+                    sell: ""
+                } : null;
+                
+                if (casestfPrice) {   
+                    formatCasestfPrice.buy += casestfPrice.buy.keys != 0 ? `${casestfPrice.buy.keys} keys` : ""
+                    formatCasestfPrice.buy += casestfPrice.buy.keys != 0 && casestfPrice.buy.metal != 0 ? ", " : ""
+                    formatCasestfPrice.buy += casestfPrice.buy.metal != 0 ? `${casestfPrice.buy.metal} ref` : ""
+                    
+                    formatCasestfPrice.sell += casestfPrice.sell.keys != 0 ? `${casestfPrice.sell.keys} keys` : ""
+                    formatCasestfPrice.sell += casestfPrice.sell.keys != 0 && casestfPrice.sell.metal != 0 ? ", " : ""
+                    formatCasestfPrice.sell += casestfPrice.sell.metal != 0 ? `${casestfPrice.sell.metal} ref` : ""
+                }
+                    
                 getImage(item, itemName, baseItemData, domain)
                     .then(imageUrl => {
                         res.render('items/index', {
                             sku: sku.replace(/;[p][0-9]+/g, ''), // Ignore painted attribute
                             skuForDisplay: sku,
-                            isCrate: this.server.casestfCrateList.includes(sku),
+                            casestfPrice: formatCasestfPrice,
                             name: itemName,
                             quality: qualityColorHex[item.quality],
                             image: imageUrl,
