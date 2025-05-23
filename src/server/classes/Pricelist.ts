@@ -217,6 +217,8 @@ export default class Pricelist {
     private handlePriceChange(data: GetItemPriceResponse) {
         if (!data.sku) return;
 
+        log.debug(`Handling price change for ${data.sku}...`);
+
         this.receivedCount++;
 
         if (data.buy !== null) {
@@ -296,10 +298,12 @@ export default class Pricelist {
 
                 if (buyChangesValue === 0 && sellChangesValue === 0) {
                     // Ignore
+                    log.debug(`Nothing changed for ${sku}.`);
                     return;
                 }
             }
 
+            log.debug(`Price for ${sku} updated!`);
             if (!this.options.dev) {
                 if (sku === '5021;6') {
                     this.server.discordWebhook.sendWebhookKeyUpdate(sku, newPrices, data.time);
