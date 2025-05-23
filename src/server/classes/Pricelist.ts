@@ -10,6 +10,7 @@ import { setWebhook, sendWebhook } from './DiscordWebhook';
 import { Webhook } from '../types/interfaces/DiscordWebhook';
 import { UnknownDictionary } from '../types/common';
 import * as timersPromises from 'timers/promises';
+import { AxiosError } from 'axios';
 
 interface Currency {
     keys: number;
@@ -557,12 +558,12 @@ export default class Pricelist {
 
         this.isProcessing = true;
 
-        await timersPromises.setTimeout(this.sleepTime);
-
         if (this.isRateLimited) {
-            this.sleepTime = 2000;
+            this.sleepTime = 5000;
             this.isRateLimited = false;
         }
+
+        await timersPromises.setTimeout(this.sleepTime);
 
         log.debug(`Getting price for ${sku}...`);
         await this.pricer
@@ -570,12 +571,17 @@ export default class Pricelist {
             .then(res => {
                 log.debug(`Got price for ${sku}...`);
                 this.handlePriceChange(res);
-            })
-            .catch(e => log.error(e))
-            .finally(() => {
                 this.isProcessing = false;
                 this.dequeue();
                 void this.processMissingPrice();
+            })
+            .catch((err: AxiosError) => {
+                if (err.response && err.response.status === 429) {
+                    // got rate limited
+                    this.isRateLimited = true;
+                    this.isProcessing = false;
+                    void this.processMissingPrice();
+                }
             });
     }
 }
