@@ -8,6 +8,8 @@ import IOptions from './IOptions';
 import Server from './Server';
 import { setWebhook, sendWebhook } from './DiscordWebhook';
 import { Webhook } from '../types/interfaces/DiscordWebhook';
+import { UnknownDictionary } from '../types/common';
+import * as timersPromises from 'timers/promises';
 
 interface Currency {
     keys: number;
@@ -517,5 +519,63 @@ export default class Pricelist {
             }
         }
         /*eslint-enable */
+    }
+
+    private sleepTime = 2000;
+
+    private isRateLimited = false;
+
+    private isProcessing = false;
+
+    private skus: UnknownDictionary<string> = {};
+
+    public enqueueMissingPrice(sku: string): void {
+        this.skus[sku] = '1';
+        log.debug(`Added ${sku} to the queue for missing price.`);
+        log.debug(`Queue size: ${this.size()}`);
+        void this.processMissingPrice();
+    }
+
+    private dequeue(): void {
+        delete this.skus[this.first()];
+    }
+
+    private first(): string {
+        return Object.keys(this.skus)[0];
+    }
+
+    private size(): number {
+        return Object.keys(this.skus).length;
+    }
+
+    private async processMissingPrice(): Promise<void> {
+        const sku = this.first();
+
+        if (sku === undefined || this.isProcessing) {
+            return;
+        }
+
+        this.isProcessing = true;
+
+        await timersPromises.setTimeout(this.sleepTime);
+
+        if (this.isRateLimited) {
+            this.sleepTime = 2000;
+            this.isRateLimited = false;
+        }
+
+        log.debug(`Getting price for ${sku}...`);
+        await this.pricer
+            .getPrice(sku)
+            .then(res => {
+                log.debug(`Got price for ${sku}...`);
+                this.handlePriceChange(res);
+            })
+            .catch(e => log.error(e))
+            .finally(() => {
+                this.isProcessing = false;
+                this.dequeue();
+                void this.processMissingPrice();
+            });
     }
 }

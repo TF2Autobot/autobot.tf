@@ -80,6 +80,7 @@ export default class Json {
             const item = this.server.pricelist.prices[sku];
             if (!item) {
                 log.warn(`Failed on GET /json/items/${sku} request - item does not exist`);
+                this.server.pricelist.enqueueMissingPrice(sku);
                 return res.json({
                     success: false,
                     message: `Item does not exist in the pricelist. Please try again.`
