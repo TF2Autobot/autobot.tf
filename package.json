@@ -58,7 +58,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-tsdoc": "^0.2.17",
     "prettier": "^2.7.1",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.5"
   },
   "private": true,
   "_moduleAliases": {
