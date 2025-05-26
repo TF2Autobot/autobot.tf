@@ -582,10 +582,13 @@ export default class Pricelist {
             .catch((err: AxiosError) => {
                 if (err.response && err.response.status === 429) {
                     // got rate limited
+                    log.warn('Rate limited.');
                     this.isRateLimited = true;
-                    this.isProcessing = false;
-                    void this.processMissingPrice();
                 }
+
+                // Other errors, just try again.
+                this.isProcessing = false;
+                void this.processMissingPrice();
             });
     }
 }
