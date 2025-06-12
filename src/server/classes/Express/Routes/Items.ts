@@ -33,11 +33,11 @@ export class Items {
 
             const skuOrName = req.params.skuOrName;
 
-            const pricelist = this.server.pricelist;
+            // const pricelist = this.server.pricelist;
             const defindexes = this.server.schemaManagerTF2.defindexes;
 
             if (['random', 'lucky', 'iamfeelinglucky'].includes(skuOrName)) {
-                const randomSku = this.pickRandomSku(Object.keys(pricelist.prices));
+                const randomSku = this.pickRandomSku(Object.keys(this.server.cachedPricelist));
                 this.isRandom = true;
                 return res.redirect(`/items/${randomSku}`);
             }
@@ -83,12 +83,12 @@ export class Items {
                 );
 
                 let currentPrice: string;
-                if (pricelist.prices[sku] !== undefined) {
-                    const prices = pricelist.prices[sku];
-                    currentPrice = `${
-                        prices.buy.toValue(pricelist.keyPrice) === 0 ? '0 ref' : prices.buy.toString()
-                    } / ${prices.sell.toValue(pricelist.keyPrice) === 0 ? '0 ref' : prices.sell.toString()}`;
-                }
+                // if (pricelist.prices[sku] !== undefined) {
+                //     const prices = pricelist.prices[sku];
+                //     currentPrice = `${
+                //         prices.buy.toValue(pricelist.keyPrice) === 0 ? '0 ref' : prices.buy.toString()
+                //     } / ${prices.sell.toValue(pricelist.keyPrice) === 0 ? '0 ref' : prices.sell.toString()}`;
+                // }
 
                 getImage(item, itemName, baseItemData, domain)
                     .then(imageUrl => {

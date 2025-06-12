@@ -65,20 +65,27 @@ export default class PricesTfPricer implements IPricer {
             const start = new Date().getTime();
 
             try {
-                log.debug(`Getting page ${currentPage}${totalPages === 0 ? '' : ` of ${totalPages}`}...`);
+                log.debug(
+                    `Getting page ${currentPage}${totalPages === 0 ? '' : ` of ${totalPages}`}... delay: ${delay} ms`
+                );
                 response = await this.api.getPricelistPage(currentPage);
                 currentPage++;
                 totalPages = response.meta.totalPages;
             } catch (e) {
+                log.error(`Error: `, e);
                 if (currentPage > 1) {
-                    await new Promise(resolve => setTimeout(resolve, 60 * 1000));
+                    log.warn(`Getting error, applying 10 seconds delay.`);
+                    await new Promise(resolve => setTimeout(resolve, 10 * 1000));
                     continue;
                 } else {
+                    log.warn(`Failed getting pricelist on first page.`);
                     if (this.attempts < 3) {
+                        log.warn(`Attempts: ${this.attempts}`);
                         this.attempts++;
                         return this.getPricelist();
                     }
 
+                    log.warn(`Getting error, attempts > 3`);
                     this.attempts = 0;
                     throw e;
                 }
