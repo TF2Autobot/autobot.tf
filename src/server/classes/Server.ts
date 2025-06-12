@@ -6,7 +6,7 @@ import SchemaManagerTF2 from './SchemaManager';
 import ServerManager from './ServerManager';
 import ExpressManager from './Express/ExpressManager';
 import DiscordWebhook from './DiscordWebhook';
-import getCasestfCratesList from '../lib/tools/getCasestfCrateList';
+import getCasestfPriceList, { CasesTFPrices } from '../lib/tools/getCasestfPriceList';
 
 export default class Server {
     public pricelist: Pricelist;
@@ -17,9 +17,9 @@ export default class Server {
 
     public ready = false;
 
-    public casestfCrateList: string[];
+    public casestfPriceList: CasesTFPrices;
 
-    public casestfCratesInterval: NodeJS.Timeout;
+    public casestfPricesInterval: NodeJS.Timeout;
 
     constructor(
         private readonly serverManager: ServerManager,
@@ -33,8 +33,8 @@ export default class Server {
     }
 
     async start(): Promise<void> {
-        this.casestfCrateList = await getCasestfCratesList();
-        this.getCasestfCratesInterval();
+        this.casestfPriceList = await getCasestfPriceList();
+        this.getCasestfPricesInterval();
 
         return new Promise((resolve, reject) => {
             this.pricelist
@@ -71,14 +71,14 @@ export default class Server {
         return this.ready;
     }
 
-    private getCasestfCratesInterval(): void {
-        this.casestfCratesInterval = setInterval(() => {
-            void getCasestfCratesList().then(crateList => {
-                if (crateList.length > 0) {
-                    this.casestfCrateList = crateList;
+    private getCasestfPricesInterval(): void {
+        this.casestfPricesInterval = setInterval(() => {
+            void getCasestfPriceList().then(prices => {
+                if (Object.keys(prices).length > 0) {
+                    this.casestfPriceList = prices;
                 }
             });
-            // Check every 12 hours
-        }, 12 * 60 * 60 * 1000);
+            // Check every 6 hours
+        }, 6 * 60 * 60 * 1000);
     }
 }
