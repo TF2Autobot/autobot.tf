@@ -137,13 +137,15 @@ export function init(paths: Paths): void {
             delete transport.filter;
 
             if (filter === 'trade') {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 transport['format'] = winston.format.combine(levelFilter(filter)(), transport['format']);
             } else if (filter === 'private') {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 transport['format'] = winston.format.combine(privateFilter(), transport['format']);
             }
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
         logger.add(new winston.transports[type](transport));
     });
 }
