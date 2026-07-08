@@ -48,8 +48,8 @@
                     </div>
                     <div>
                         <a id="mptfLink" href="https://marketplace.tf/items/tf2/<%= sku %>">Marketplace.tf</a>
-                        <a id="pricestfLink" href="https://prices.tf/items/<%= sku %>"
-                            ><%= currentPricestfPrice ? currentPricestfPrice : 'Prices.tf' %></a
+                        <a id="pricedbLink" href="https://pricedb.io/item/<%= sku %>"
+                            ><%= currentPricedbPrice ? currentPricedbPrice : 'Pricedb.io' %></a
                         >
                     </div>
                     <div>
@@ -74,6 +74,13 @@
                 src="/js/getMptfPrice.js"
                 id="getMptfPrice"
                 bptfQuery="<%= bptfQuery %>"
+            ></script>
+
+            <script
+                type="text/javascript"
+                src="/js/getPricedbPrice.js"
+                id="getPricedbPrice"
+                skupricedb="<%= sku %>"
             ></script>
 
             <script>

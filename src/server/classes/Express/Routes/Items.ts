@@ -82,6 +82,7 @@ export class Items {
                     item
                 );
 
+                // TODO: Pricer socket Resurrection
                 let currentPrice: string;
                 // if (pricelist.prices[sku] !== undefined) {
                 //     const prices = pricelist.prices[sku];
@@ -98,7 +99,7 @@ export class Items {
                             name: itemName,
                             quality: qualityColorHex[item.quality],
                             image: imageUrl,
-                            description: `${currentPrice ? `Prices.tf: ${currentPrice}` : ''}${
+                            description: `${currentPrice ? `Pricedb.io: ${currentPrice}` : ''}${
                                 itemDescription ? `\n-----\n${itemDescription}` : ''
                             }`,
                             oldBptfUrl: oldBptfUrl,
@@ -106,7 +107,7 @@ export class Items {
                             scmUrl: generateScmUrl(this.schema, item),
                             stnUrl: generateStnTradingUrl(this.schema, item),
                             bptfQuery,
-                            currentPricestfPrice: currentPrice
+                            currentPricedbPrice: currentPrice
                         });
                     })
                     .catch(err => {
