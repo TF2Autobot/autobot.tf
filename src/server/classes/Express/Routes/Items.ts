@@ -95,7 +95,6 @@ export class Items {
                         res.render('items/index', {
                             sku: sku.replace(/;[p][0-9]+/g, ''), // Ignore painted attribute
                             skuForDisplay: sku,
-                            isCrate: this.server.casestfCrateList.includes(sku),
                             name: itemName,
                             quality: qualityColorHex[item.quality],
                             image: imageUrl,
