@@ -20,7 +20,7 @@
     "merge-images": "^2.0.0",
     "module-alias": "^2.3.4",
     "pm2": "^7.0.3",
-    "pretty-ms": "^7.0.1",
+    "pretty-ms": "^9.3.0",
     "reconnecting-websocket": "^4.4.0",
     "winston": "^3.19.0",
     "winston-daily-rotate-file": "^5.0.0",

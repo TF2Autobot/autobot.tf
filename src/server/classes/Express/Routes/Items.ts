@@ -33,6 +33,13 @@ export class Items {
 
             const skuOrName = req.params?.skuOrName;
 
+            if (typeof skuOrName !== 'string') {
+                return res.json({
+                    success: false,
+                    message: 'Invalid sku format. Please try again.'
+                });
+            }
+
             // const pricelist = this.server.pricelist;
             const defindexes = this.server.schemaManagerTF2.defindexes;
 
