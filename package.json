@@ -1,6 +1,6 @@
 {
   "name": "autobot.tf",
-  "version": "3.19.2",
+  "version": "4.0.0",
   "description": "Official TF2Autobot website",
   "main": "dist/server/index.js",
   "dependencies": {
@@ -43,6 +43,9 @@
     "@types/express": "^5.0.6",
     "prettier": "3.9.5",
     "typescript": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=22.x"
   },
   "private": true
 }
