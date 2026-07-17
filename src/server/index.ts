@@ -1,4 +1,3 @@
-import 'module-alias/register';
 // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-assignment
 const { version: SERVER_VERSION } = require('../../package.json');
 import { loadOptions } from './classes/IOptions';
