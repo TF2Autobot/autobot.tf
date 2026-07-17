@@ -54,6 +54,7 @@ export default async function getImage(
             try {
                 const itemImage = needResize ? await resizeImage(itemImageUrlPrint) : itemImageUrlPrint;
 
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
                 const imageBase64 = (await mergeImages(
                     [path.join(publicImagesDirectory, `/effects/${item.effect}_380x380.png`), itemImage],
                     {

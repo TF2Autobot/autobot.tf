@@ -1,21 +1,14 @@
 import log from '../lib/logger';
 import IOptions from './IOptions';
-import IPricer from '../types/interfaces/IPricer';
-// import Pricelist from './Pricelist';
 import SchemaManagerTF2 from './SchemaManager';
 import ServerManager from './ServerManager';
 import ExpressManager from './Express/ExpressManager';
-// import DiscordWebhook from './DiscordWebhook';
-import { EntryData, PricesDataObject } from './Pricelist';
 import genPaths from '../resources/paths';
 import { readFile } from '../lib/files';
+import { EntryData, PricesDataObject } from '../types/interfaces/Pricelist';
 
 export default class Server {
-    // public pricelist: Pricelist;
-
     public expressManager: ExpressManager;
-
-    // public discordWebhook: DiscordWebhook;
 
     public ready = false;
 
@@ -23,13 +16,10 @@ export default class Server {
 
     constructor(
         private readonly serverManager: ServerManager,
-        public readonly pricer: IPricer,
         public readonly schemaManagerTF2: SchemaManagerTF2,
         public options: IOptions
     ) {
         this.expressManager = new ExpressManager(this);
-        // this.discordWebhook = new DiscordWebhook(this, this.schemaManagerTF2.schema);
-        // this.pricelist = new Pricelist(this, this.schemaManagerTF2, this.pricer, this.options);
     }
 
     async start(): Promise<void> {

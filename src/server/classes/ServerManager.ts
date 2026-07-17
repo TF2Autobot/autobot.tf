@@ -2,7 +2,6 @@ import SchemaManagerTF2 from './SchemaManager';
 import pm2 from 'pm2';
 import log from '../lib/logger';
 import { waitForWriting } from '../lib/files';
-import IPricer from '../types/interfaces/IPricer';
 import IOptions from './IOptions';
 import Server from './Server';
 
@@ -19,8 +18,8 @@ export default class ServerManager {
 
     private exiting = false;
 
-    constructor(private readonly pricer: IPricer) {
-        this.pricer = pricer;
+    constructor() {
+        // Empty constructor
     }
 
     get isStopping(): boolean {
@@ -38,12 +37,10 @@ export default class ServerManager {
                 .then(() => {
                     log.info('Starting server...');
 
-                    this.pricer.init();
-
                     log.debug('Initializing tf2schema...');
                     this.schemaManager = new SchemaManagerTF2(options.steamApiKey);
                     void this.schemaManager.initializeSchema().then(() => {
-                        this.server = new Server(this, this.pricer, this.schemaManager, options);
+                        this.server = new Server(this, this.schemaManager, options);
 
                         this.server
                             .start()
@@ -161,9 +158,6 @@ export default class ServerManager {
             // Close all server connections
             this.server.expressManager.shutdown();
         }
-
-        // Disconnect from socket server to stop price updates
-        this.pricer.shutdown();
     }
 
     private exit(err: Error | null): void {

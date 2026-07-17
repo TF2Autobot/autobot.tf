@@ -2,6 +2,8 @@ import log from '../../../lib/logger';
 import express, { Router } from 'express';
 import Server from '../../Server';
 
+type Sites = 'discord' | 'github' | 'steam' | 'youtube' | 'backpacktf';
+
 export class Redirect {
     constructor(private readonly server: Server) {
         //
@@ -13,7 +15,7 @@ export class Redirect {
         ['discord', 'github', 'steam', 'youtube', 'backpacktf'].forEach(site => {
             router.get(`/${site}`, (req, res) => {
                 log.info(`Got GET /${site} redirect`);
-                res.redirect(this.server.options.redirects[site]);
+                res.redirect(this.server.options.redirects[site as Sites]);
             });
         });
 

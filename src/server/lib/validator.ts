@@ -5,9 +5,8 @@ const v = new Validator();
 
 import { optionsSchema } from '../schemas/options-json/options';
 v.addSchema(optionsSchema);
-
-import { EntryData } from '../classes/Pricelist';
 import { JsonOptions } from '../classes/IOptions';
+import { EntryData } from '../types/interfaces/Pricelist';
 
 export = function (data: EntryData | JsonOptions, schema: string): string[] | null {
     const putSchema = schema === 'options' ? optionsSchema : {};
