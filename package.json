@@ -40,7 +40,6 @@
   },
   "homepage": "https://github.com/TF2Autobot/autobot.tf#readme",
   "devDependencies": {
-    "@babel/preset-typescript": "^7.27.1",
     "@types/death": "^1.1.5",
     "@types/express": "^5.0.6",
     "prettier": "3.9.5",
