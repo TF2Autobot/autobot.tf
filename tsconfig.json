@@ -1,9 +1,8 @@
 {
     "compilerOptions": {
-        "baseUrl": ".",
+        "paths": {"*": ["./*"]},
         "target": "ES2020",
-        "module": "CommonJS",
-        "moduleResolution": "Node",
+        "module": "commonjs",
         "allowJs": false,
         "checkJs": false,
         "outDir": "./dist",

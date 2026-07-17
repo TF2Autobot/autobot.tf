@@ -8,7 +8,7 @@ v.addSchema(optionsSchema);
 import { JsonOptions } from '../classes/IOptions';
 import { EntryData } from '../types/interfaces/Pricelist';
 
-export = function (data: EntryData | JsonOptions, schema: string): string[] | null {
+export default function (data: EntryData | JsonOptions, schema: string): string[] | null {
     const putSchema = schema === 'options' ? optionsSchema : {};
 
     const validated = v.validate(data, putSchema);
@@ -17,7 +17,7 @@ export = function (data: EntryData | JsonOptions, schema: string): string[] | nu
     }
 
     return errorParser(validated);
-};
+}
 
 function errorParser(validated: jsonschema.ValidatorResult): string[] {
     const errors: string[] = [];
