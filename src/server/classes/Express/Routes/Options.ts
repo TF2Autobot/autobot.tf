@@ -100,11 +100,11 @@ export default class Options {
 }
 
 function checkAuthorization(req: Request, res: Response, requestRawHeader: string): boolean {
-    if (req.query.secret_key === undefined) {
+    if (req.query?.secret_key === undefined) {
         log.warn(`Failed on GET /options request (Unauthorized), request info:\n${requestRawHeader}`);
         res.status(401).json({ message: 'Not Authorized' });
         return false;
-    } else if (req.query.secret_key !== process.env.SECRET_KEY_ADMIN) {
+    } else if (req.query?.secret_key !== process.env.SECRET_KEY_ADMIN) {
         log.warn(`Failed on GET /options request from (Invalid Authorization), request info:\n ${requestRawHeader} `);
         res.status(403).json({
             message: 'Invalid authorization'

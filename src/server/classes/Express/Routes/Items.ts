@@ -31,7 +31,7 @@ export class Items {
             const host = req.headers.host;
             const domain = `${protocol as string}://${host}`;
 
-            const skuOrName = req.params.skuOrName;
+            const skuOrName = req.params?.skuOrName;
 
             // const pricelist = this.server.pricelist;
             const defindexes = this.server.schemaManagerTF2.defindexes;

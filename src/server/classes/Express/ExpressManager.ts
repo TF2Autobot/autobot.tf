@@ -2,7 +2,6 @@ import Server from '../Server';
 import express, { Express } from 'express';
 import http from 'http';
 import path from 'path';
-import bodyParser from 'body-parser';
 import Index from './Routes/Index';
 import { Items } from './Routes/Items';
 import Json from './Routes/Json';
@@ -32,9 +31,9 @@ export default class ExpressManager {
                 .use(express.static(path.join(__dirname, '../../../../public')))
                 .set('view engine', 'ejs')
                 .set('trust proxy', 1)
-                .use(bodyParser.json())
+                .use(express.json())
                 .use(
-                    bodyParser.urlencoded({
+                    express.urlencoded({
                         extended: false
                     })
                 );
