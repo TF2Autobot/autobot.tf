@@ -44,8 +44,7 @@ import ON_DEATH from 'death';
 import * as inspect from 'util';
 import { setWebhook, sendWebhook } from './classes/DiscordWebhook';
 import { uptime } from './lib/tools/time';
-import { Webhook } from './types/interfaces/DiscordWebhook';
-import axios from 'axios';
+import { Webhook, WebhookError } from './types/interfaces/DiscordWebhook';
 
 const optDW = options.discord.server;
 
@@ -99,11 +98,20 @@ ON_DEATH({ uncaughtException: true })((signalOrErr, origin) => {
                 ]
             };
 
-            axios({
+            fetch(optDW.url, {
                 method: 'POST',
-                url: optDW.url,
-                data: webhook
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(webhook)
             })
+                .then(res => {
+                    if (!res.ok) {
+                        const error = new Error(`Request failed with status code ${res.status}`) as WebhookError;
+                        error.status = res.status;
+                        throw error;
+                    }
+                })
                 .catch(err => {
                     log.error('Error sending webhook on crash', err);
                 })

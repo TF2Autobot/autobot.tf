@@ -41,3 +41,8 @@ export interface Webhook {
     content?: string;
     embeds?: Embeds[];
 }
+
+export interface WebhookError {
+    message?: string;
+    status?: number;
+}
