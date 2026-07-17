@@ -42,15 +42,8 @@
   "homepage": "https://github.com/TF2Autobot/autobot.tf#readme",
   "devDependencies": {
     "@babel/preset-typescript": "^7.27.1",
-    "@tf2autobot/jsonlint": "^1.0.0",
     "@types/death": "^1.1.5",
     "@types/express": "^5.0.6",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.10.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-tsdoc": "^0.2.17",
     "prettier": "3.9.5",
     "typescript": "^7.0.2"
   },

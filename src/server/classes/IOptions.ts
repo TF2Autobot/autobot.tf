@@ -1,6 +1,5 @@
 import { snakeCase } from 'change-case';
 import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync } from 'fs';
-import jsonlint from '@tf2autobot/jsonlint';
 import * as path from 'path';
 import { AnyObject, deepMerge } from '../lib/tools/deep-merge';
 import validator from '../lib/validator';
@@ -114,8 +113,7 @@ function throwLintError(filepath: string, e: Error): void {
 function lintPath(filepath: string): void {
     const rawOptions = readFileSync(filepath, { encoding: 'utf8' });
     try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        jsonlint.parse(rawOptions);
+        JSON.parse(rawOptions);
     } catch (e) {
         throwLintError(filepath, e as Error);
     }
@@ -138,15 +136,13 @@ function loadJsonOptions(optionsPath: string, options?: IOptions): JsonOptions {
         const rawOptions = readFileSync(optionsPath, { encoding: 'utf8' });
         try {
             const parsedRaw = JSON.parse(rawOptions) as JsonOptions;
-
             fileOptions = deepMerge({}, workingDefault, parsedRaw);
             return deepMerge(fileOptions as AnyObject, incomingOptions) as JsonOptions;
         } catch (e) {
             if (e instanceof SyntaxError) {
                 // lint the rawOptions to give better feedback since it is SyntaxError
                 try {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                    jsonlint.parse(rawOptions);
+                    JSON.parse(rawOptions);
                 } catch (e) {
                     throwLintError(optionsPath, e as Error);
                 }
