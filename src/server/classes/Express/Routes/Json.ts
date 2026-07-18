@@ -2,7 +2,6 @@ import log from '../../../lib/logger';
 import express, { Router } from 'express';
 import Server from '../../Server';
 import { Schema } from '@tf2autobot/tf2-schema';
-import { rateLimiterUsingThirdParty } from '../Middlewares/rateLimiter';
 
 export default class Json {
     private schema: Schema;
@@ -23,7 +22,6 @@ export default class Json {
          * on success, return Schema
          */
         router.get('/schema', (req, res) => {
-            log.info(`Got GET /json/schema request`);
             res.json(this.schema);
         });
 
@@ -35,7 +33,6 @@ export default class Json {
          * { success: true, items: PricesObject }
          */
         router.get('/pricelist', (req, res) => {
-            log.info(`Got GET /json/pricelist request`);
             res.status(503).json({
                 message: 'This endpoint is no longer available as prices.tf service ended.'
             });
@@ -48,8 +45,7 @@ export default class Json {
          * on success, return:
          * { success: true, items: Entry[] }
          */
-        router.get('/pricelist-array', rateLimiterUsingThirdParty, (req, res) => {
-            log.info(`Got GET /json/pricelist-array${req.query?.onlyExist === 'true' ? ' (onlyExist)' : ''} request`);
+        router.get('/pricelist-array', (req, res) => {
             res.status(503).json({
                 message: 'This endpoint is no longer available as prices.tf service ended.'
             });

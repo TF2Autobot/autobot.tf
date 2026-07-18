@@ -23,7 +23,7 @@ export default class Options {
                 return;
             }
 
-            log.info(`Got GET /options request, info:\n${requestRawHeader}`);
+            log.warn('info', requestRawHeader);
             const options = deepMerge({}, this.server.options) as IOptions;
             res.json({ success: true, options: removeCliOptions(options) });
         });
@@ -36,14 +36,14 @@ export default class Options {
             }
 
             if (req.headers['content-type'] !== 'application/json') {
-                log.warn(`Got PATCH /options request with wrong content-type, request info:\n${requestRawHeader}`);
+                log.warn(`Got PATCH /options request with wrong content-type, request info:\n`, requestRawHeader);
                 return res.status(400).json({
                     message: 'Invalid request'
                 });
             }
 
             if (req.body === undefined) {
-                log.warn(`Got PATCH /options request with undefined body, request info:\n${requestRawHeader}`);
+                log.warn(`Got PATCH /options request with undefined body, request info:\n`, requestRawHeader);
                 return res.status(400).json({
                     message: 'Invalid request (body undefined)'
                 });
@@ -59,7 +59,7 @@ export default class Options {
             const errors = validator(result, 'options');
             if (errors !== null) {
                 const msg = '❌ Error updating options: ' + errors.join(', ');
-                log.warn(`Got PATCH /options request with error, request info:\n${requestRawHeader}`);
+                log.warn(`Got PATCH /options request with error, request info:\n`, requestRawHeader);
                 log.error(msg);
 
                 return res.json({
@@ -80,12 +80,13 @@ export default class Options {
                             toSend,
                             null,
                             2
-                        )}, request info:\n${requestRawHeader}`
+                        )}, request info:\n`,
+                        requestRawHeader
                     );
                     return res.json(toSend);
                 });
             } catch (err) {
-                log.warn(`Got PATCH /options request with error, request info:\n${requestRawHeader}`);
+                log.warn(`Got PATCH /options request with error, request info:\n`, requestRawHeader);
                 const msg = 'Error saving patched options';
                 log.error(msg, err);
                 return res.json({
@@ -101,11 +102,11 @@ export default class Options {
 
 function checkAuthorization(req: Request, res: Response, requestRawHeader: string): boolean {
     if (req.query?.secret_key === undefined) {
-        log.warn(`Failed on GET /options request (Unauthorized), request info:\n${requestRawHeader}`);
+        log.warn(`Failed on GET /options request (Unauthorized), request info:\n`, requestRawHeader);
         res.status(401).json({ message: 'Not Authorized' });
         return false;
     } else if (req.query?.secret_key !== process.env.SECRET_KEY_ADMIN) {
-        log.warn(`Failed on GET /options request from (Invalid Authorization), request info:\n ${requestRawHeader} `);
+        log.warn(`Failed on GET /options request from (Invalid Authorization), request info:\n`, requestRawHeader);
         res.status(403).json({
             message: 'Invalid authorization'
         });

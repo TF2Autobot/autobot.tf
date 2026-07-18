@@ -9,9 +9,7 @@ export default class Index {
 
     init(): Router {
         const router = express.Router();
-
         return router.get('/', (req, res) => {
-            log.info(`Got GET / request (main page)`);
             res.sendFile(path.join(__dirname, '../../../../../views/index.html'));
         });
     }

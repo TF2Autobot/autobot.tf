@@ -14,7 +14,7 @@ export class Redirect {
 
         ['discord', 'github', 'steam', 'youtube', 'backpacktf'].forEach(site => {
             router.get(`/${site}`, (req, res) => {
-                log.info(`Got GET /${site} redirect`);
+                log.info(`/${site} redirect`);
                 res.redirect(this.server.options.redirects[site as Sites]);
             });
         });
